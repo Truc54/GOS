@@ -75,10 +75,8 @@ export function ScoreSearchForm({
               aria-invalid={Boolean(validationMessage)}
               aria-describedby={validationMessage ? 'sbd-validation-error' : undefined}
               className={[
-                'w-full rounded-md border bg-white py-2 pl-9 pr-14 text-sm font-medium tracking-wider text-slate-900 transition focus:outline-none',
-                validationMessage
-                  ? 'border-rose-400 focus:border-rose-500'
-                  : 'border-slate-300 focus:border-brand-sky',
+                'w-full rounded-md border bg-white py-2 pl-9 pr-14 text-sm font-medium tracking-wider text-slate-900 focus:outline-none',
+                validationMessage ? 'border-rose-400' : 'border-slate-300',
               ].join(' ')}
             />
             <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400">

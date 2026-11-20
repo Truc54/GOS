@@ -85,12 +85,11 @@ export function ScoreResultView({ result }: ScoreResultViewProps) {
                       {CATEGORY_LABELS[subject.category]}
                     </span>
                     <h4 className="mt-0.5 text-sm font-bold text-brand-navy">{subject.name}</h4>
-                    <p className="text-xs text-slate-500">
-                      {subject.vietnameseName}
-                      {subject.metadata?.foreignLanguageName
-                        ? ` · ${subject.metadata.foreignLanguageName}`
-                        : ''}
-                    </p>
+                    {subject.metadata?.foreignLanguageName && (
+                      <p className="text-xs text-slate-500">
+                        {subject.metadata.foreignLanguageName}
+                      </p>
+                    )}
                   </div>
                   <ScoreLevelBadge level={subject.level} />
                 </div>
@@ -126,12 +125,9 @@ export function ScoreResultView({ result }: ScoreResultViewProps) {
                 className="rounded-md border border-slate-200 bg-slate-50/40 p-4"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="rounded bg-brand-yellow px-2 py-0.5 font-mono text-xs font-semibold text-brand-navy">
-                      {group.groupCode}
-                    </span>
-                    <span className="text-xs font-medium text-slate-600">{group.groupName}</span>
-                  </div>
+                  <span className="rounded bg-brand-yellow px-2.5 py-0.5 text-xs font-semibold text-brand-navy">
+                    {`Group ${group.groupCode}`}
+                  </span>
                   <span className="shrink-0 text-lg font-bold text-brand-navy">
                     {group.totalScore.toFixed(2)}
                     <span className="text-xs font-normal text-slate-400"> / 30</span>
@@ -144,7 +140,7 @@ export function ScoreResultView({ result }: ScoreResultViewProps) {
                       key={sub.code}
                       className="rounded border border-slate-200 bg-white px-2 py-0.5 text-xs text-slate-600"
                     >
-                      {sub.vietnameseName}:{' '}
+                      {sub.name}:{' '}
                       <strong className="text-brand-navy">{sub.score.toFixed(2)}</strong>
                     </span>
                   ))}

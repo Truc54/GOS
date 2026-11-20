@@ -11,31 +11,31 @@ function requireSubject(code: SubjectCode): Subject {
   return subject;
 }
 
-export const GROUP_A00 = new ExamGroup('A00', 'Group A (Math, Physics, Chemistry)', [
+export const GROUP_A00 = new ExamGroup('A00', 'Group A00', [
   requireSubject('toan'),
   requireSubject('vat_li'),
   requireSubject('hoa_hoc'),
 ]);
 
-export const GROUP_A01 = new ExamGroup('A01', 'Group A01 (Math, Physics, Foreign Language)', [
+export const GROUP_A01 = new ExamGroup('A01', 'Group A01', [
   requireSubject('toan'),
   requireSubject('vat_li'),
   requireSubject('ngoai_ngu'),
 ]);
 
-export const GROUP_B00 = new ExamGroup('B00', 'Group B00 (Math, Chemistry, Biology)', [
+export const GROUP_B00 = new ExamGroup('B00', 'Group B00', [
   requireSubject('toan'),
   requireSubject('hoa_hoc'),
   requireSubject('sinh_hoc'),
 ]);
 
-export const GROUP_C00 = new ExamGroup('C00', 'Group C00 (Literature, History, Geography)', [
+export const GROUP_C00 = new ExamGroup('C00', 'Group C00', [
   requireSubject('ngu_van'),
   requireSubject('lich_su'),
   requireSubject('dia_li'),
 ]);
 
-export const GROUP_D01 = new ExamGroup('D01', 'Group D01 (Math, Literature, Foreign Language)', [
+export const GROUP_D01 = new ExamGroup('D01', 'Group D01', [
   requireSubject('toan'),
   requireSubject('ngu_van'),
   requireSubject('ngoai_ngu'),
