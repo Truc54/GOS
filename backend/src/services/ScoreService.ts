@@ -1,11 +1,8 @@
-import {
-  EXAM_GROUPS,
-  ExamGroup,
-  ExamGroupEvaluation,
-  SubjectEvaluation,
-  SubjectRegistry,
-  subjectRegistry as defaultSubjectRegistry,
-} from '../domain';
+import { HttpStatus } from '../constants/httpStatus';
+import { ExamGroup } from '../domain/groups/ExamGroup';
+import { EXAM_GROUPS } from '../domain/groups/examGroups';
+import { SubjectRegistry, subjectRegistry } from '../domain/subjects/SubjectRegistry';
+import type { ExamGroupEvaluation, SubjectEvaluation } from '../domain/types';
 import { AppError } from '../middlewares/errorHandler';
 import { ScoreRepository } from '../repositories/ScoreRepository';
 
@@ -21,7 +18,7 @@ export interface StudentScoreDetailResponse {
 export class ScoreService {
   constructor(
     private readonly repository: ScoreRepository = new ScoreRepository(),
-    private readonly registry: SubjectRegistry = defaultSubjectRegistry,
+    private readonly registry: SubjectRegistry = subjectRegistry,
     private readonly examGroups: readonly ExamGroup[] = EXAM_GROUPS,
   ) {}
 
@@ -30,7 +27,7 @@ export class ScoreService {
 
     if (!record) {
       throw new AppError(
-        404,
+        HttpStatus.NOT_FOUND,
         'SCORE_NOT_FOUND',
         `No exam scores found for registration number ${sbd}.`,
       );

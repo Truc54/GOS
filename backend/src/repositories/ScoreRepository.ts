@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client';
-import { prisma as defaultPrisma } from '../config/prisma';
-import { RawStudentScoreRecord } from '../domain';
+import type { PrismaClient } from '@prisma/client';
+import { prisma } from '../config/prisma';
+import type { RawStudentScoreRecord } from '../domain/types';
 
 export class ScoreRepository {
-  constructor(private readonly db: PrismaClient = defaultPrisma) {}
+  constructor(private readonly db: PrismaClient = prisma) {}
 
   public async findBySbd(sbd: string): Promise<RawStudentScoreRecord | null> {
     return this.db.studentScore.findUnique({

@@ -1,4 +1,5 @@
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
+import { HttpStatus } from '../constants/httpStatus';
 import { ScoreService } from '../services/ScoreService';
 import { sbdParamSchema } from '../validators/score.validator';
 
@@ -14,7 +15,7 @@ export class ScoreController {
       const { sbd } = sbdParamSchema.parse(req.params);
       const data = await this.scoreService.getScoreBySbd(sbd);
 
-      res.status(200).json({
+      res.status(HttpStatus.OK).json({
         success: true,
         data,
       });
