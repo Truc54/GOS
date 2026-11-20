@@ -87,7 +87,7 @@ export function ScoreSearchForm({
           <button
             type="submit"
             disabled={isLoading}
-            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-md bg-brand-yellow px-5 py-2 text-sm font-semibold text-brand-navy transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex w-full shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md bg-brand-yellow px-4 py-2 text-sm font-semibold text-brand-navy transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60 sm:w-36"
           >
             {isLoading ? (
               <>
