@@ -55,7 +55,7 @@ export function TopGroupATable({ students }: TopGroupATableProps) {
                   <td className="px-4 py-3.5 font-mono font-semibold text-brand-navy">
                     <Link
                       to={`/search?sbd=${student.sbd}`}
-                      className="cursor-pointer transition hover:text-brand-sky hover:underline"
+                      className="cursor-pointer transition-colors hover:text-brand-yellow"
                     >
                       {student.sbd}
                     </Link>
