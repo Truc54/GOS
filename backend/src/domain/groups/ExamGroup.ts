@@ -33,11 +33,11 @@ export class ExamGroup {
     return this.subjects.map((subject) => subject.getCode());
   }
 
-  public isEligible(record: RawStudentScoreRecord): boolean {
+  public isEligible(record: Partial<RawStudentScoreRecord>): boolean {
     return this.subjects.every((subject) => subject.extractScore(record) !== null);
   }
 
-  public calculateTotalScore(record: RawStudentScoreRecord): number | null {
+  public calculateTotalScore(record: Partial<RawStudentScoreRecord>): number | null {
     let sum = 0;
 
     for (const subject of this.subjects) {

@@ -10,6 +10,13 @@ export interface RawSubjectDistributionCounts {
   excellent: number;
 }
 
+export interface RawTopGroupARow {
+  sbd: string;
+  toan: number;
+  vat_li: number;
+  hoa_hoc: number;
+}
+
 export class ReportRepository {
   constructor(private readonly db: PrismaClient = prisma) {}
 
@@ -45,5 +52,23 @@ export class ReportRepository {
     }
 
     return result;
+  }
+
+  public async getTopGroupA(limit: number): Promise<RawTopGroupARow[]> {
+    // Matches idx_student_scores_group_a_total predicate and sort order verbatim for an Index Scan
+    const rows = await this.db.$queryRaw<RawTopGroupARow[]>`
+      SELECT "sbd", "toan", "vat_li", "hoa_hoc"
+      FROM "student_scores"
+      WHERE "toan" IS NOT NULL AND "vat_li" IS NOT NULL AND "hoa_hoc" IS NOT NULL
+      ORDER BY ("toan" + "vat_li" + "hoa_hoc") DESC, "toan" DESC, "sbd" ASC
+      LIMIT ${limit};
+    `;
+
+    return rows.map((row) => ({
+      sbd: row.sbd,
+      toan: Number(row.toan),
+      vat_li: Number(row.vat_li),
+      hoa_hoc: Number(row.hoa_hoc),
+    }));
   }
 }
