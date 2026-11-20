@@ -8,8 +8,11 @@ import { errorHandler } from './middlewares/errorHandler';
 import apiRoutes from './routes';
 
 const app = express();
+app.set('trust proxy', 1);
 
-const allowedOrigins = env.CORS_ORIGIN.split(',').map((origin) => origin.trim());
+const allowedOrigins = env.CORS_ORIGIN.split(',')
+  .map((origin) => origin.trim().replace(/\/$/, ''))
+  .filter(Boolean);
 
 app.use(helmet());
 app.use(
