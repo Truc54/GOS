@@ -1,17 +1,17 @@
-import { BarChart3, GraduationCap, LayoutDashboard, Menu, Search, X } from 'lucide-react';
+import { BarChart3, GraduationCap, Menu, Search, Trophy, X } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 
 interface NavItem {
   to: string;
   label: string;
-  icon: typeof LayoutDashboard;
+  icon: typeof Search;
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/search', label: 'Search Scores', icon: Search },
   { to: '/reports', label: 'Reports', icon: BarChart3 },
+  { to: '/leaderboard', label: 'Leaderboard', icon: Trophy },
 ];
 
 export function AppLayout() {
