@@ -1,6 +1,6 @@
 import type { ScoreLevel, SubjectCategory, SubjectCode } from './score';
 
-export type ScoreLevelKey = 'excellent' | 'good' | 'average' | 'poor';
+export type ScoreLevelKey = 'belowAverage' | 'average' | 'good' | 'excellent';
 
 export interface ScoreLevelDefinition {
   key: ScoreLevelKey;

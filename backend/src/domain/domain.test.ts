@@ -54,8 +54,8 @@ describe('Subject OOP hierarchy', () => {
     assert.equal(math.classifyScore(6.0), ScoreLevel.GOOD);
     assert.equal(math.classifyScore(5.99), ScoreLevel.AVERAGE);
     assert.equal(math.classifyScore(4.0), ScoreLevel.AVERAGE);
-    assert.equal(math.classifyScore(3.99), ScoreLevel.POOR);
-    assert.equal(math.classifyScore(0), ScoreLevel.POOR);
+    assert.equal(math.classifyScore(3.99), ScoreLevel.BELOW_AVERAGE);
+    assert.equal(math.classifyScore(0), ScoreLevel.BELOW_AVERAGE);
 
     assert.throws(() => math.classifyScore(-0.1), RangeError);
     assert.throws(() => math.classifyScore(10.25), RangeError);

@@ -4,10 +4,10 @@ import { SCORE_LEVEL_THRESHOLDS, Subject } from '../domain/subjects/Subject';
 import type { SubjectCode } from '../domain/types';
 
 export interface RawSubjectDistributionCounts {
-  excellent: number;
-  good: number;
+  belowAverage: number;
   average: number;
-  poor: number;
+  good: number;
+  excellent: number;
 }
 
 export class ReportRepository {
@@ -22,10 +22,10 @@ export class ReportRepository {
     const selectClauses = subjects.flatMap((subject) => {
       const col = subject.getCode();
       return [
-        `COUNT(*) FILTER (WHERE "${col}" >= ${EXCELLENT_MIN})::int AS "${col}_excellent"`,
-        `COUNT(*) FILTER (WHERE "${col}" >= ${GOOD_MIN} AND "${col}" < ${EXCELLENT_MIN})::int AS "${col}_good"`,
+        `COUNT(*) FILTER (WHERE "${col}" < ${AVERAGE_MIN})::int AS "${col}_below_average"`,
         `COUNT(*) FILTER (WHERE "${col}" >= ${AVERAGE_MIN} AND "${col}" < ${GOOD_MIN})::int AS "${col}_average"`,
-        `COUNT(*) FILTER (WHERE "${col}" < ${AVERAGE_MIN})::int AS "${col}_poor"`,
+        `COUNT(*) FILTER (WHERE "${col}" >= ${GOOD_MIN} AND "${col}" < ${EXCELLENT_MIN})::int AS "${col}_good"`,
+        `COUNT(*) FILTER (WHERE "${col}" >= ${EXCELLENT_MIN})::int AS "${col}_excellent"`,
       ];
     });
 
@@ -37,10 +37,10 @@ export class ReportRepository {
     for (const subject of subjects) {
       const col = subject.getCode();
       result[col] = {
-        excellent: Number(row[`${col}_excellent`] ?? 0),
-        good: Number(row[`${col}_good`] ?? 0),
+        belowAverage: Number(row[`${col}_below_average`] ?? 0),
         average: Number(row[`${col}_average`] ?? 0),
-        poor: Number(row[`${col}_poor`] ?? 0),
+        good: Number(row[`${col}_good`] ?? 0),
+        excellent: Number(row[`${col}_excellent`] ?? 0),
       };
     }
 

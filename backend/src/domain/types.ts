@@ -26,7 +26,7 @@ export enum ScoreLevel {
   EXCELLENT = 'EXCELLENT',
   GOOD = 'GOOD',
   AVERAGE = 'AVERAGE',
-  POOR = 'POOR',
+  BELOW_AVERAGE = 'BELOW_AVERAGE',
 }
 
 export interface RawStudentScoreRecord {

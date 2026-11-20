@@ -54,7 +54,7 @@ export abstract class Subject {
     if (score >= SCORE_LEVEL_THRESHOLDS.EXCELLENT_MIN) return ScoreLevel.EXCELLENT;
     if (score >= SCORE_LEVEL_THRESHOLDS.GOOD_MIN) return ScoreLevel.GOOD;
     if (score >= SCORE_LEVEL_THRESHOLDS.AVERAGE_MIN) return ScoreLevel.AVERAGE;
-    return ScoreLevel.POOR;
+    return ScoreLevel.BELOW_AVERAGE;
   }
 
   public extractScore(record: RawStudentScoreRecord): number | null {

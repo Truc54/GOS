@@ -4,7 +4,7 @@ import { ScoreLevel, type SubjectCategory, type SubjectCode } from '../domain/ty
 import { ReportRepository } from '../repositories/ReportRepository';
 
 export interface ScoreLevelDefinition {
-  key: 'excellent' | 'good' | 'average' | 'poor';
+  key: 'belowAverage' | 'average' | 'good' | 'excellent';
   code: ScoreLevel;
   label: string;
 }
@@ -15,16 +15,16 @@ export interface SubjectScoreDistribution {
   category: SubjectCategory;
   totalStudents: number;
   distribution: {
-    excellent: number;
-    good: number;
+    belowAverage: number;
     average: number;
-    poor: number;
+    good: number;
+    excellent: number;
   };
   percentages: {
-    excellent: number;
-    good: number;
+    belowAverage: number;
     average: number;
-    poor: number;
+    good: number;
+    excellent: number;
   };
 }
 
@@ -34,10 +34,10 @@ export interface ScoreDistributionReport {
 }
 
 const SCORE_LEVEL_DEFINITIONS: ScoreLevelDefinition[] = [
-  { key: 'excellent', code: ScoreLevel.EXCELLENT, label: '>= 8.0' },
-  { key: 'good', code: ScoreLevel.GOOD, label: '6.0 - 7.99' },
-  { key: 'average', code: ScoreLevel.AVERAGE, label: '4.0 - 5.99' },
-  { key: 'poor', code: ScoreLevel.POOR, label: '< 4.0' },
+  { key: 'belowAverage', code: ScoreLevel.BELOW_AVERAGE, label: 'Below Average (< 4.0)' },
+  { key: 'average', code: ScoreLevel.AVERAGE, label: 'Average (4.0 - 5.99)' },
+  { key: 'good', code: ScoreLevel.GOOD, label: 'Good (6.0 - 7.99)' },
+  { key: 'excellent', code: ScoreLevel.EXCELLENT, label: 'Excellent (>= 8.0)' },
 ];
 
 const DISTRIBUTION_CACHE_KEY = 'score_distribution_all_subjects';
@@ -65,7 +65,8 @@ export class ReportService {
       const subjectStats: SubjectScoreDistribution[] = subjects.map((subject) => {
         const code = subject.getCode();
         const counts = rawCounts[code];
-        const totalStudents = counts.excellent + counts.good + counts.average + counts.poor;
+        const totalStudents =
+          counts.belowAverage + counts.average + counts.good + counts.excellent;
 
         return {
           code,
@@ -74,10 +75,10 @@ export class ReportService {
           totalStudents,
           distribution: counts,
           percentages: {
-            excellent: toPercentage(counts.excellent, totalStudents),
-            good: toPercentage(counts.good, totalStudents),
+            belowAverage: toPercentage(counts.belowAverage, totalStudents),
             average: toPercentage(counts.average, totalStudents),
-            poor: toPercentage(counts.poor, totalStudents),
+            good: toPercentage(counts.good, totalStudents),
+            excellent: toPercentage(counts.excellent, totalStudents),
           },
         };
       });

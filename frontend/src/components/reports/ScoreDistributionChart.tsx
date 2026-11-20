@@ -15,10 +15,10 @@ export type ChartMode = 'grouped' | 'stacked';
 export type CategoryFilter = 'ALL' | SubjectCategory;
 
 const LEVEL_SERIES = [
-  { key: 'excellent', label: '>= 8.0', color: '#059669' },
-  { key: 'good', label: '6.0 - 7.99', color: '#62A7EA' },
-  { key: 'average', label: '4.0 - 5.99', color: '#F59E0B' },
-  { key: 'poor', label: '< 4.0', color: '#E11D48' },
+  { key: 'belowAverage', label: 'Below Average (< 4.0)', color: '#E11D48' },
+  { key: 'average', label: 'Average (4.0 - 5.99)', color: '#F59E0B' },
+  { key: 'good', label: 'Good (6.0 - 7.99)', color: '#62A7EA' },
+  { key: 'excellent', label: 'Excellent (>= 8.0)', color: '#059669' },
 ] as const;
 
 const CATEGORY_TABS: Array<{ value: CategoryFilter; label: string }> = [
@@ -31,14 +31,14 @@ const CATEGORY_TABS: Array<{ value: CategoryFilter; label: string }> = [
 interface ChartDatum {
   name: string;
   totalStudents: number;
-  excellent: number;
-  good: number;
+  belowAverage: number;
   average: number;
-  poor: number;
-  excellentPct: number;
-  goodPct: number;
+  good: number;
+  excellent: number;
+  belowAveragePct: number;
   averagePct: number;
-  poorPct: number;
+  goodPct: number;
+  excellentPct: number;
 }
 
 interface CustomTooltipProps {
@@ -64,14 +64,14 @@ function DistributionTooltip({ active, payload }: CustomTooltipProps) {
           const pct = item[`${series.key}Pct`];
           return (
             <div key={series.key} className="flex items-center justify-between gap-5">
-              <span className="flex items-center gap-1.5 text-slate-600">
+              <span className="flex items-center gap-1.5 whitespace-nowrap text-slate-600">
                 <span
-                  className="inline-block h-2.5 w-2.5 rounded-xs"
+                  className="inline-block h-2.5 w-2.5 shrink-0 rounded-xs"
                   style={{ backgroundColor: series.color }}
                 />
                 {series.label}
               </span>
-              <span className="font-mono font-semibold text-brand-navy">
+              <span className="whitespace-nowrap font-mono font-semibold text-brand-navy">
                 {count.toLocaleString()}{' '}
                 <span className="font-normal text-slate-400">({pct.toFixed(1)}%)</span>
               </span>
@@ -107,14 +107,14 @@ export function ScoreDistributionChart({
   const chartData: ChartDatum[] = subjects.map((subject) => ({
     name: subject.name,
     totalStudents: subject.totalStudents,
-    excellent: subject.distribution.excellent,
-    good: subject.distribution.good,
+    belowAverage: subject.distribution.belowAverage,
     average: subject.distribution.average,
-    poor: subject.distribution.poor,
-    excellentPct: subject.percentages.excellent,
-    goodPct: subject.percentages.good,
+    good: subject.distribution.good,
+    excellent: subject.distribution.excellent,
+    belowAveragePct: subject.percentages.belowAverage,
     averagePct: subject.percentages.average,
-    poorPct: subject.percentages.poor,
+    goodPct: subject.percentages.good,
+    excellentPct: subject.percentages.excellent,
   }));
 
   const stackId = chartMode === 'stacked' ? 'score-levels' : undefined;
@@ -195,6 +195,7 @@ export function ScoreDistributionChart({
               align="right"
               iconType="square"
               iconSize={10}
+              itemSorter={null}
               wrapperStyle={{ paddingBottom: 14, fontSize: 12 }}
             />
             {LEVEL_SERIES.map((series) => (
