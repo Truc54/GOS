@@ -1,11 +1,12 @@
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
+import { HttpStatus, type HttpStatusCode } from '../constants/httpStatus';
 
 export class AppError extends Error {
-  public readonly statusCode: number;
+  public readonly statusCode: HttpStatusCode;
   public readonly code: string;
 
-  constructor(statusCode: number, code: string, message: string) {
+  constructor(statusCode: HttpStatusCode, code: string, message: string) {
     super(message);
     this.statusCode = statusCode;
     this.code = code;
@@ -31,7 +32,7 @@ export function errorHandler(
   }
 
   if (err instanceof ZodError) {
-    res.status(400).json({
+    res.status(HttpStatus.BAD_REQUEST).json({
       success: false,
       error: {
         code: 'VALIDATION_ERROR',
@@ -46,7 +47,7 @@ export function errorHandler(
   }
 
   console.error('Unhandled error:', err);
-  res.status(500).json({
+  res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
     success: false,
     error: {
       code: 'INTERNAL_SERVER_ERROR',

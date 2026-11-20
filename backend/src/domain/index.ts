@@ -12,10 +12,10 @@ export { NaturalScienceSubject } from './subjects/NaturalScienceSubject';
 export { SocialScienceSubject } from './subjects/SocialScienceSubject';
 export { Subject } from './subjects/Subject';
 export { SubjectRegistry, subjectRegistry } from './subjects/SubjectRegistry';
-export {
+export { ScoreLevel } from './types';
+export type {
   ExamGroupEvaluation,
   RawStudentScoreRecord,
-  ScoreLevel,
   SubjectCategory,
   SubjectCode,
   SubjectEvaluation,

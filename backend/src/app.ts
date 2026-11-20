@@ -3,6 +3,7 @@ import express from 'express';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { env } from './config/env';
+import { HttpStatus } from './constants/httpStatus';
 import { errorHandler } from './middlewares/errorHandler';
 import apiRoutes from './routes';
 
@@ -39,7 +40,7 @@ app.use(
 app.use('/api', apiRoutes);
 
 app.use((_req, res) => {
-  res.status(404).json({
+  res.status(HttpStatus.NOT_FOUND).json({
     success: false,
     error: {
       code: 'NOT_FOUND',

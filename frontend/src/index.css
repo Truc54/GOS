@@ -2,8 +2,17 @@
 
 @theme {
   --font-sans: "Rubik", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --color-brand-navy: #0C1B48;
+  --color-brand-sky: #62A7EA;
+  --color-brand-yellow: #F2EA1E;
 }
 
 body {
   font-family: var(--font-sans);
+}
+
+button:not(:disabled),
+a[href],
+[role="button"] {
+  cursor: pointer;
 }
