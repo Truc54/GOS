@@ -57,7 +57,7 @@ export abstract class Subject {
     return ScoreLevel.BELOW_AVERAGE;
   }
 
-  public extractScore(record: RawStudentScoreRecord): number | null {
+  public extractScore(record: Partial<RawStudentScoreRecord>): number | null {
     const value = record[this.fieldName];
     return typeof value === 'number' ? value : null;
   }

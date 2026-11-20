@@ -1,4 +1,6 @@
 import { InMemoryCache } from '../config/cache';
+import { ExamGroup } from '../domain/groups/ExamGroup';
+import { GROUP_A00 } from '../domain/groups/examGroups';
 import { SubjectRegistry, subjectRegistry } from '../domain/subjects/SubjectRegistry';
 import { ScoreLevel, type SubjectCategory, type SubjectCode } from '../domain/types';
 import { ReportRepository } from '../repositories/ReportRepository';
@@ -33,6 +35,24 @@ export interface ScoreDistributionReport {
   subjects: SubjectScoreDistribution[];
 }
 
+export interface TopGroupAStudent {
+  rank: number;
+  sbd: string;
+  scores: {
+    toan: number;
+    vat_li: number;
+    hoa_hoc: number;
+  };
+  totalScore: number;
+}
+
+export interface TopGroupAReport {
+  groupCode: string;
+  groupName: string;
+  limit: number;
+  students: TopGroupAStudent[];
+}
+
 const SCORE_LEVEL_DEFINITIONS: ScoreLevelDefinition[] = [
   { key: 'belowAverage', code: ScoreLevel.BELOW_AVERAGE, label: 'Below Average (< 4.0)' },
   { key: 'average', code: ScoreLevel.AVERAGE, label: 'Average (4.0 - 5.99)' },
@@ -49,10 +69,12 @@ function toPercentage(count: number, total: number): number {
 
 export class ReportService {
   private readonly distributionCache = new InMemoryCache<ScoreDistributionReport>();
+  private readonly topGroupACache = new InMemoryCache<TopGroupAReport>();
 
   constructor(
     private readonly repository: ReportRepository = new ReportRepository(),
     private readonly registry: SubjectRegistry = subjectRegistry,
+    private readonly groupA: ExamGroup = GROUP_A00,
   ) {}
 
   public async getScoreDistribution(): Promise<ScoreDistributionReport> {
@@ -92,5 +114,56 @@ export class ReportService {
     }
 
     return fullReport;
+  }
+
+  public async getTopGroupA(limit = 10): Promise<TopGroupAReport> {
+    const cacheKey = `top_group_a:${limit}`;
+    const cached = this.topGroupACache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    const rows = await this.repository.getTopGroupA(limit);
+    const students: TopGroupAStudent[] = [];
+    let currentRank = 0;
+    let previousTotal: number | null = null;
+
+    for (const row of rows) {
+      const totalScore = this.groupA.calculateTotalScore({
+        toan: row.toan,
+        vatLi: row.vat_li,
+        hoaHoc: row.hoa_hoc,
+      });
+
+      if (totalScore === null) {
+        continue;
+      }
+
+      if (previousTotal === null || totalScore !== previousTotal) {
+        currentRank = students.length + 1;
+        previousTotal = totalScore;
+      }
+
+      students.push({
+        rank: currentRank,
+        sbd: row.sbd,
+        scores: {
+          toan: row.toan,
+          vat_li: row.vat_li,
+          hoa_hoc: row.hoa_hoc,
+        },
+        totalScore,
+      });
+    }
+
+    const report: TopGroupAReport = {
+      groupCode: this.groupA.getCode(),
+      groupName: this.groupA.getName(),
+      limit,
+      students,
+    };
+
+    this.topGroupACache.set(cacheKey, report);
+    return report;
   }
 }

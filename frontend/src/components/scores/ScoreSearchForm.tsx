@@ -95,7 +95,7 @@ export function ScoreSearchForm({
                 Searching...
               </>
             ) : (
-              'Submit'
+              'Search'
             )}
           </button>
         </div>
