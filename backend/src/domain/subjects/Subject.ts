@@ -1,12 +1,18 @@
 import {
-  RawStudentScoreRecord,
   ScoreLevel,
-  SubjectCategory,
-  SubjectCode,
-  SubjectEvaluation,
-  SubjectFieldName,
-  SubjectMetadata,
+  type RawStudentScoreRecord,
+  type SubjectCategory,
+  type SubjectCode,
+  type SubjectEvaluation,
+  type SubjectFieldName,
+  type SubjectMetadata,
 } from '../types';
+
+export const SCORE_LEVEL_THRESHOLDS = {
+  EXCELLENT_MIN: 8,
+  GOOD_MIN: 6,
+  AVERAGE_MIN: 4,
+} as const;
 
 export abstract class Subject {
   constructor(
@@ -45,10 +51,10 @@ export abstract class Subject {
       );
     }
 
-    if (score >= 8) return ScoreLevel.EXCELLENT;
-    if (score >= 6) return ScoreLevel.GOOD;
-    if (score >= 4) return ScoreLevel.AVERAGE;
-    return ScoreLevel.POOR;
+    if (score >= SCORE_LEVEL_THRESHOLDS.EXCELLENT_MIN) return ScoreLevel.EXCELLENT;
+    if (score >= SCORE_LEVEL_THRESHOLDS.GOOD_MIN) return ScoreLevel.GOOD;
+    if (score >= SCORE_LEVEL_THRESHOLDS.AVERAGE_MIN) return ScoreLevel.AVERAGE;
+    return ScoreLevel.BELOW_AVERAGE;
   }
 
   public extractScore(record: RawStudentScoreRecord): number | null {

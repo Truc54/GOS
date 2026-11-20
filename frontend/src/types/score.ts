@@ -11,7 +11,7 @@ export type SubjectCode =
 
 export type SubjectCategory = 'MANDATORY' | 'NATURAL_SCIENCE' | 'SOCIAL_SCIENCE';
 
-export type ScoreLevel = 'EXCELLENT' | 'GOOD' | 'AVERAGE' | 'POOR';
+export type ScoreLevel = 'EXCELLENT' | 'GOOD' | 'AVERAGE' | 'BELOW_AVERAGE';
 
 export interface SubjectMetadata {
   foreignLanguageCode?: string;
