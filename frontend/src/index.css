@@ -16,3 +16,8 @@ a[href],
 [role="button"] {
   cursor: pointer;
 }
+
+.recharts-wrapper:focus,
+.recharts-wrapper *:focus {
+  outline: none;
+}
